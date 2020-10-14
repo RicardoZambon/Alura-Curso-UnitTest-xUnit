@@ -5,8 +5,8 @@ Curso da Alura sobre testes de unidade e TDD com xUnit.
 
 **[C#: Testes de unidade e TDD com xUnit](https://cursos.alura.com.br/course/tdd-csharp-xunit)** 
 
-* :eight_pointed_black_star: Promovendo rápido feedback
-* :black_square_button: Organizando seus testes
+* :white_check_mark: Promovendo rápido feedback
+* :eight_pointed_black_star: Organizando seus testes
 * :black_square_button: Não deixe o sistema regredir
 * :black_square_button: Testando todos os comportamentos
 * :black_square_button: Ajudando no design do código
