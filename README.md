@@ -8,8 +8,8 @@ Curso da Alura sobre testes de unidade e TDD com xUnit.
 * :white_check_mark: Promovendo rápido feedback
 * :white_check_mark: Organizando seus testes
 * :white_check_mark: Não deixe o sistema regredir
-* :eight_pointed_black_star: Testando todos os comportamentos
-* :black_square_button: Ajudando no design do código
+* :white_check_mark: Testando todos os comportamentos
+* :eight_pointed_black_star: Ajudando no design do código
 
 <br />
 
