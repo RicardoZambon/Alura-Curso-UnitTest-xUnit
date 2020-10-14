@@ -12,7 +12,6 @@ Curso da Alura sobre testes de unidade e TDD com xUnit.
 * :black_square_button: Ajudando no design do código
 
 <br />
-<br />
 
 <img src="TestDrivenDevelopment.png" />
 
