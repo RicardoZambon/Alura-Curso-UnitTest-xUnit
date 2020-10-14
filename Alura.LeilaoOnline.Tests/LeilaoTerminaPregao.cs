@@ -3,45 +3,41 @@ using Xunit;
 
 namespace Alura.LeilaoOnline.Tests
 {
-    public class LeilaoTestes
+    public class LeilaoTerminaPregao
     {
-        [Fact]
-        public void LeilaoComVariosLances()
+        [Theory]
+        [InlineData(1200, new double[] { 800, 900, 1000, 1200 })]
+        [InlineData(1000, new double[] { 800, 900, 1000, 990 })]
+        [InlineData(800, new double[] { 800 })]
+        public void RetornaMaioValorDadoLeilaoComPeloMenosUmLance(double valorEsperado, double[] ofertas)
         {
             //Arranje - Cenário
             var leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("Fulano", leilao);
-            var maria = new Interessada("Maria", leilao);
 
-            leilao.RecebeLance(fulano, 800);
-            leilao.RecebeLance(maria, 900);
-            leilao.RecebeLance(fulano, 1000);
-            leilao.RecebeLance(maria, 990);
+            foreach (var valor in ofertas)
+            {
+                leilao.RecebeLance(fulano, valor);
+            }
 
             //Act - Método sob teste
             leilao.TerminaPregao();
 
             //Assert
-            var valorEsperado = 1000;
-            var valorObtido = leilao.Ganhador.Valor;
-
-            Assert.Equal(valorEsperado, valorObtido);
+            Assert.Equal(valorEsperado, leilao.Ganhador.Valor);
         }
 
         [Fact]
-        public void LeilaoComApenasUmLance()
+        public void RetornaZeroDadoLeilaoSemLances()
         {
             //Arranje - Cenário
             var leilao = new Leilao("Van Gogh");
-            var fulano = new Interessada("Fulano", leilao);
-
-            leilao.RecebeLance(fulano, 800);
 
             //Act - Método sob teste
             leilao.TerminaPregao();
 
             //Assert
-            var valorEsperado = 800;
+            var valorEsperado = 0;
             var valorObtido = leilao.Ganhador.Valor;
 
             Assert.Equal(valorEsperado, valorObtido);

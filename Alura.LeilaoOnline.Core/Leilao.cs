@@ -3,6 +3,12 @@ using System.Linq;
 
 namespace Alura.LeilaoOnline.Core
 {
+    public enum EstadoLeilao
+    {
+        LeilaoEmAndamento,
+        LeilaoFinalizado
+    }
+
     public class Leilao
     {
         private IList<Lance> _lances;
@@ -10,15 +16,22 @@ namespace Alura.LeilaoOnline.Core
         public string Peca { get; }
         public Lance Ganhador { get; private set; }
 
+        public EstadoLeilao Estado { get; private set; }
+
         public Leilao(string peca)
         {
             Peca = peca;
             _lances = new List<Lance>();
+            Estado = EstadoLeilao.LeilaoEmAndamento;
         }
+
 
         public void RecebeLance(Interessada cliente, double valor)
         {
-            _lances.Add(new Lance(cliente, valor));
+            if (Estado == EstadoLeilao.LeilaoEmAndamento)
+            {
+                _lances.Add(new Lance(cliente, valor));
+            }
         }
 
         public void IniciaPregao()
@@ -28,7 +41,11 @@ namespace Alura.LeilaoOnline.Core
 
         public void TerminaPregao()
         {
-            Ganhador = Lances.OrderBy(x => x.Valor).Last();
+            Ganhador = Lances
+                .DefaultIfEmpty(new Lance(null, 0))
+                .OrderBy(x => x.Valor)
+                .LastOrDefault();
+            Estado = EstadoLeilao.LeilaoFinalizado;
         }
     }
 }
