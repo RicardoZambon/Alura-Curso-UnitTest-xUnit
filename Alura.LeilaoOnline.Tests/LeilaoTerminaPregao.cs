@@ -7,13 +7,36 @@ namespace Alura.LeilaoOnline.Tests
     public class LeilaoTerminaPregao
     {
         [Theory]
+        [InlineData(1200, 1250, new double[] { 800, 1150, 1400, 1250 })]
+        public void RetornaValorSuperiorMaisProximoDadoLeilaoNessaModalidade(
+            double valorDestino, double valorEsperado, double[] ofertas)
+        {
+            //Arranje - Cenário
+            var leilao = new Leilao("Van Gogh", new OfertaSuperiorMaisProxima(valorDestino));
+            var fulano = new Interessada("Fulano", leilao);
+            var maria = new Interessada("Maria", leilao);
+
+            leilao.IniciaPregao();
+            for (var i = 0; i < ofertas.Length; i++)
+            {
+                leilao.RecebeLance((i % 2) == 0 ? fulano : maria, ofertas[i]);
+            }
+
+            //Act - Método sob teste
+            leilao.TerminaPregao();
+
+            //Assert
+            Assert.Equal(valorEsperado, leilao.Ganhador.Valor);
+        }
+
+        [Theory]
         [InlineData(1200, new double[] { 800, 900, 1000, 1200 })]
         [InlineData(1000, new double[] { 800, 900, 1000, 990 })]
         [InlineData(800, new double[] { 800 })]
         public void RetornaMaioValorDadoLeilaoComPeloMenosUmLance(double valorEsperado, double[] ofertas)
         {
             //Arranje - Cenário
-            var leilao = new Leilao("Van Gogh");
+            var leilao = new Leilao("Van Gogh", new MaiorValor());
             var fulano = new Interessada("Fulano", leilao);
             var maria = new Interessada("Maria", leilao);
 
@@ -34,7 +57,7 @@ namespace Alura.LeilaoOnline.Tests
         public void LancaInvalidOperationExceptionDadoPregaoNaoIniciado()
         {
             //Arranje - Cenário
-            var leilao = new Leilao("Van Gogh");
+            var leilao = new Leilao("Van Gogh", new MaiorValor());
 
             //Assert
             var excecaoObtida = Assert.Throws<InvalidOperationException>(() =>
@@ -51,7 +74,7 @@ namespace Alura.LeilaoOnline.Tests
         public void RetornaZeroDadoLeilaoSemLances()
         {
             //Arranje - Cenário
-            var leilao = new Leilao("Van Gogh");
+            var leilao = new Leilao("Van Gogh", new MaiorValor());
 
             leilao.IniciaPregao();
 
